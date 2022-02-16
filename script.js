@@ -15,32 +15,34 @@ function computerPlay() {
 function playRound (playerSelection, computerSelection)
 {
 
-    // winner is a temp var I am using to work through the logic 
-    // it is likely to change later as I figure out how to 
-    // print winning/losing msg
+    // stores the winner or tie 
     let winner = "";
+
+    // sets first char toUpperCase and the rest of the string toLowerCase
     playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.substring(1).toLowerCase(); 
 
-    if (!plays.includes(playerSelection))
-    {
+    // if players play is not in the plays arr computer wins by default
+    if (!plays.includes(playerSelection)) {
+
         winner = "Computer";
     }
     else {
-        // const player = plays.indexOf(playerSelection);
-        // const computer = plays.indexOf(computerSelection);
+
         if (playerSelection === computerSelection){
             winner = "tie";
         }
-        else if (playerSelection == losingPlays[computerSelection]) {
+        // checks if playerSelection is equal to the losing play value for computerSeclection in the losingPlays object 
+        else if (playerSelection === losingPlays[computerSelection]) { 
             winner = "player";
         }
         else {
             winner = "computer"
         }
     }
+
     return `${winner} ${"computer: " + computerSelection} ${ "player: " + playerSelection}`;
 }
 
-const playerSelection = "PAPER";
+const playerSelection = "RoCk";
 const computerSelection = computerPlay();
 console.log(playRound(playerSelection, computerSelection));

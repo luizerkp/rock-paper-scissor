@@ -5,6 +5,10 @@ const losingPlays = {
     Rock: "Paper"
 };
 
+// Used to craft win/lose message and keep track when player wins/loses
+const win = "You Win!";
+const lose = "You Lose!";
+
 function computerPlay() {
 
     const possiblePlays = plays.length;
@@ -12,35 +16,85 @@ function computerPlay() {
     return plays[random];
 }
 
-function playRound (playerSelection, computerSelection)
+function playRound(playerSelection, computerSelection)
 {
 
-    // stores the winner or tie 
-    let winner = "";
+    // stores the results of the match
+    let match = ""; 
+    
+    const beats = "beats"
 
-    // sets first char toUpperCase and the rest of the string toLowerCase
-    playerSelection = playerSelection.charAt(0).toUpperCase() + playerSelection.substring(1).toLowerCase(); 
+    // checks if playerSelection is equal to the losing play value for computerSeclection in the losingPlays object 
+    if (playerSelection === losingPlays[computerSelection]) { 
 
-    // if players play is not in the plays arr computer wins by default
-    if (!plays.includes(playerSelection)) {
-
-        winner = "Computer";
+        match = `${win} ${playerSelection} ${beats} ${computerSelection}`;
     }
     else {
 
-        if (playerSelection === computerSelection){
-            winner = "tie";
+        match = `${lose} ${computerSelection} ${beats} ${playerSelection}`;
+    }
+
+    return match;
+}
+
+function game() {
+
+    // keeps treck of scores 
+    let playerScore = 0;
+    let computerScore = 0;
+
+    // Used to build tie message and announce game results 
+    const tie = "It's a Tie!";
+    const equal = "is equal";
+
+    let winner = "";
+
+    for (let i = 0; i < 5; i++) {
+
+        let player = "";
+        let computer = "";  
+        let roundResults = "";
+
+        do {
+            player = window.prompt("Choose Rock, Paper or Scissors: ");
         }
-        // checks if playerSelection is equal to the losing play value for computerSeclection in the losingPlays object 
-        else if (playerSelection === losingPlays[computerSelection]) { 
-            winner = "player";
+        while(!plays.includes(player));
+
+        // sets first char toUpperCase and the rest of the string toLowerCase
+        player = player.charAt(0).toUpperCase() + player.substring(1).toLowerCase();
+        // chooses the computers hand 
+        computer = computerPlay();
+
+        if (player === computer) {
+            roundResults = `${tie} ${player} ${equal} ${computer}`;
         }
         else {
-            winner = "computer"
+            roundResults = playRound(player, computer);
+        }
+
+        console.log(roundResults);
+
+        if (roundResults.includes(win)) {
+            playerScore++;
+        }
+        else if (roundResults.includes(lose)) {
+            computerScore++;
         }
     }
 
-    return `${winner} ${"computer: " + computerSelection} ${ "player: " + playerSelection}`;
+    // determine winner or tie
+    if (playerScore > computerScore) {
+        winner = win;
+    }
+    else if (playerScore === computerScore) {
+        winner = tie;
+    }
+    else {
+        winner = lose;
+    }
+
+    return `${"The results of the game is..."} ${winner}`; 
+
 }
 
 const playerSelection = "RoCk";

@@ -1,4 +1,4 @@
-const plays = ["Paper", "Rock", "Scissors"];
+const plays = ["Paper", "Rock", "Scissors", "Cancel"];
 const losingPlays = {
     Scissors: "Rock", 
     Paper: "Scissors", 
@@ -56,14 +56,25 @@ function game() {
         let roundResults = "";
 
         do {
-            player = window.prompt("Choose Rock, Paper or Scissors: ");
+
+            player = window.prompt("Choose Rock, Paper, Scissors or Cancel: ");
+
+            if (player != null) {
+                // sets first char toUpperCase and the rest of the string toLowerCase
+                player = player.charAt(0).toUpperCase() + player.substring(1).toLowerCase();
+            }
         }
         while(!plays.includes(player));
 
-        // sets first char toUpperCase and the rest of the string toLowerCase
-        player = player.charAt(0).toUpperCase() + player.substring(1).toLowerCase();
+        if (player === "Cancel") {
+            computerScore = 5;
+            break;
+        }
+
         // chooses the computers hand 
         computer = computerPlay();
+
+        console.log("Round #" + i);
 
         if (player === computer) {
             roundResults = `${tie} ${player} ${equal} ${computer}`;
@@ -93,10 +104,8 @@ function game() {
         winner = lose;
     }
 
-    return `${"The results of the game is..."} ${winner}`; 
+    return `${"The result of the game is..."} ${winner}`; 
 
 }
 
-const playerSelection = "RoCk";
-const computerSelection = computerPlay();
-console.log(playRound(playerSelection, computerSelection));
+console.log(game());

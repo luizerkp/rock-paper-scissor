@@ -16,12 +16,9 @@ function computerPlay() {
     return plays[random];
 }
 
-function playRound(playerSelection, computerSelection)
-{
+function playRound(playerSelection, computerSelection) {
 
-    // stores the results of the match
     let match = ""; 
-    
     const beats = "beats"
 
     // checks if playerSelection is equal to the losing play value for computerSeclection in the losingPlays object 
@@ -39,7 +36,7 @@ function playRound(playerSelection, computerSelection)
 
 function game() {
 
-    // keeps treck of scores 
+    // keeps track of scores 
     let playerScore = 0;
     let computerScore = 0;
 
@@ -109,7 +106,6 @@ function game() {
     }
 
     return `${"The result of the game is..."} ${winner}`; 
-
 }
 
 console.log(game());

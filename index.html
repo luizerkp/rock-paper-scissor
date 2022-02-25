@@ -9,17 +9,29 @@
     <title>Play R-P-S</title>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            
+    <div class="header">
+        <img src="img/header.png" alt="Text reads 'human vs computer'">
+    </div>    
+    <div class="container"> 
+        <div class="score">
+            <p>Player: <span id="playerScore">0</span></p>
+            <p>Computer: <span id="computerScore">0</span></p>
+        </div>                
+        <div class="results">
+            <p id="round">Ready!!... Fight!!</p>
+            <p id="details">First to score 5pts takes the cake</p>
         </div>
         <div class = "btns">
-            <button id="Rock">Rock</button>
-            <button id="Paper">Paper</button>
-            <button id="Scissors">Scissors</button>
-        </div> 
-        <div class="results"></div>
-        <div class="score"></div>
+            <button class="Rock"><img class="Rock" src="img/rock.png" alt="neon pink image of a fist"></button>
+            <button class="Paper"><img class="Paper" src="img/paper.png" alt="neon blue image of a on palm"></button>
+            <button class="Scissors"><img class="Scissors" src="img/scissors.png" alt="neon yellow image of a hand making two finger peace sign"></button>
+        </div>
+    </div>        
+    <div class="modal">
+        <div class="modal-content">
+            <h1 class="playAgainText"></h1>
+            <input type="button" class="playAgainBtn" value="Play Again">
+        </div>
     </div>
     <div class="footer"></div>
 </body>

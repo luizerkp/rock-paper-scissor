@@ -6,18 +6,18 @@ footer.appendChild(footerPara);
 
 const plays = ["Paper", "Rock", "Scissors"];
 const losingPlays = {
-    Scissors: "Rock", 
-    Paper: "Scissors", 
+    Scissors: "Rock",
+    Paper: "Scissors",
     Rock: "Paper"
 };
 
 // Used to craft win/lose message and keep track when player wins/loses
-const win = "You Win!";
+const win = "You Won!";
 const lose = "You Lose!";
 
 // Used to build tie message and announce game results 
 const tie = "It's a Tie!";
-const equal = "is equal";    
+const equal = "ties with";
 
 // keeps track of scores 
 let playerScore = 0;
@@ -30,49 +30,45 @@ function computerPlay() {
     return plays[random];
 }
 
+// plays one round of the game
 function playRound(playerSelection, computerSelection) {
 
-    let match = ""; 
+    let match = "";
+    let results = "";
     const beats = "beats"
 
-    const resultsContent = document.querySelector('.results'); 
-    const resultsPara = document.createElement('p');
-    const existingResults = resultsContent.querySelector('.results p');
-
-    if (existingResults) {
-        resultsContent.removeChild(existingResults);
-    }
-    
+    const resultsRound = document.querySelector('#round');
+    const resultsDetails = document.querySelector('#details');
 
     // checks if playerSelection is equal to the losing play value for computerSeclection in the losingPlays object 
     if (playerSelection === computerSelection) {
 
-        match = `${tie} ${playerSelection} ${equal} ${computerSelection}`;
-    }                
-    else if (playerSelection === losingPlays[computerSelection]) { 
+        match = `${playerSelection} ${equal} ${computerSelection}`;
+        results = `${tie}`;
+    }
+    else if (playerSelection === losingPlays[computerSelection]) {
 
-        match = `${win} ${playerSelection} ${beats} ${computerSelection}`;
+        match = `${playerSelection} ${beats} ${computerSelection}`;
+        results = `${win}`;
     }
     else {
 
-        match = `${lose} ${computerSelection} ${beats} ${playerSelection}`;
+        match = `${computerSelection} ${beats} ${playerSelection}`;
+        results = `${lose}`;
     }
 
-    resultsPara.textContent = match;
-    resultsContent.appendChild(resultsPara);
+    resultsRound.textContent = results;
+    resultsDetails.textContent = match;
 
-    return match;
+    return results;
 }
 
+// keeps track of the game score and declares a winner
 function game(results) {
 
     // displays current score
-    const scoreContent = document.querySelector('.score');
-    const scoreParaPlayer = document.createElement('p');
-    const scoreParaComputer = document.createElement('p');
-    scoreParaComputer.classList.add('computer');
-    scoreParaPlayer.classList.add('player');
-    const existingScore = scoreContent.querySelectorAll('.score p');
+    let playerScoreContent = document.querySelector('#playerScore');
+    let computerScoreContent = document.querySelector('#computerScore');
 
     let winner = "";
 
@@ -90,80 +86,50 @@ function game(results) {
     }
     else if (computerScore === 5) {
         winner = "Computer";
-    }    
-    
-    scoreParaPlayer.textContent = `Player Score: ${playerScore}`;
-    scoreParaComputer.textContent = `Computer Score: ${computerScore}`;
-    
-    if (existingScore) {
-        existingScore.forEach(score => {
-            scoreContent.removeChild(score);
-        });
     }
 
-    scoreContent.appendChild(scoreParaPlayer);
-    scoreContent.appendChild(scoreParaComputer);
-    return winner; 
+    playerScoreContent.textContent = playerScore;
+    computerScoreContent.textContent = computerScore;
+
+    return winner;
 }
 
-function playagain () {
-    let tryAgay = window.confirm("Would you like to play again?");
-    if (tryAgay) {
-        window.location.reload();
+// Displays the winner of the game and the option to play again
+function playAgain(gameResults) {
+
+    const modal = document.querySelector('.modal');
+    const playAgainBtn = document.querySelector('.playAgainBtn');
+    
+    let playAgainText = document.querySelector('.playAgainText');
+
+    if (gameResults === "Player") {
+        playAgainText.textContent = win;
+    }
+    else if (gameResults === "Computer") {
+        playAgainText.textContent = lose;
     }
     else {
-        alert("Thanks for playing!");
+        playAgainText.textContent = gameResults;
     }
+
+    modal.classList.toggle("show-modal");
+    
+    playAgainBtn.addEventListener('click', () => {
+        location.reload();
+    }); 
 }
 
 const btns = document.querySelectorAll(".btns");
 
-btns.forEach(btn => btn.addEventListener('click', function(e) {
+btns.forEach(btn => btn.addEventListener('click', function (e) {
 
-    const playerSelection = e.target.id;
+    const playerSelection = e.target.className;
     const computerSelection = computerPlay();
     let gameResults = "";
 
-    if (playerScore >= 5 || computerScore >= 5) {
-        playagain();
+    gameResults = game(playRound(playerSelection, computerSelection));
+    if (gameResults) {
+        playAgain(gameResults);
     }
-    else {
-        gameResults = game(playRound(playerSelection, computerSelection));
-        if (gameResults) {
-            console.log(gameResults);
-            
-        }
-        else {
-            // console.log("No winner yet");
-            return;
-        }
-    }
-    
-    
-    // if (!gameResults) {
-    //     return;
-    // }
-    // else {
-        // const winner = document.querySelector('.winner');
-        // const winnerPara = document.createElement('p');
-        // const existingWinner = winner.querySelector('p');
 
-        // if (existingWinner) {
-        //     winner.removeChild(existingWinner);
-        // }
-
-        // winner.appendChild(winnerPara);
-        // winnerPara.textContent = `${gameResults} is the winner!`;
-        
-        // // resets all game values to initial state
-        // playagain();
-    // }
-    
-    // if (gameResults) {
-    //     resultsPara.textContent = `${gameResults} wins!`;
-    // }
-
-    // console.log(playerSelection);
 }));
-
-// console.log(game());
